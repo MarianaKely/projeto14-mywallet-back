@@ -10,12 +10,10 @@ let db;
 try {
 
   await mongoClient.connect()
-  console.log("MongoDB Connected!");
   db = mongoClient.db()
 
 } catch (error) {
 
-  console.log('Problemas no servidor')
 }
 
 export async function profiles (req, res) {
@@ -27,7 +25,7 @@ export async function profiles (req, res) {
 
     } catch (error) {
 
-      res.status(500).send("Server problems")
+      res.status(500).send("Internal Error")
       
     }
   }

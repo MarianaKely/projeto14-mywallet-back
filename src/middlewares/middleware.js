@@ -10,12 +10,10 @@ let db;
 try {
 
   await mongoClient.connect()
-  console.log("MongoDB Connected!");
   db = mongoClient.db()
 
 } catch (error) {
 
-  console.log('Problemas no servidor')
 }
 
 export async function middleware(req, res, next) {
@@ -23,12 +21,12 @@ export async function middleware(req, res, next) {
     const { authorization } = req.headers;
     const internalAnalysis = authorization?.replace("Bearer ", "");
 
-    if (!internalAnalysis) return res.status(422).send("Informe o token");
+    if (!internalAnalysis) return res.status(422).send("ERROR");
 
     try {
 
         const room = await db.collection("sessions").findOne({ token: internalAnalysis });
-        if (!room) return res.status(422).send("Acesso negado");
+        if (!room) return res.status(422).send("Access Denied");
         res.locals.session = room;
         next();
 

@@ -13,12 +13,9 @@ let db;
 try {
 
   await mongoClient.connect()
-  console.log("MongoDB Connected!");
   db = mongoClient.db()
 
 } catch (error) {
-
-  console.log('Problemas no servidor')
 
 }
 
@@ -32,13 +29,13 @@ export async function signIn(req, res) {
 
     const internalAnalysis = await db.collection("users").findOne({ email });
 
-    if (!internalAnalysis) return res.status(400).send("Usuário ou senha incorretos");
+    if (!internalAnalysis) return res.status(400).send("Invalid username or password");
 
     const psswrd = bcrypt.compareSync(password, internalAnalysis.password);
 
     if (!psswrd) {
 
-      return res.status(400).send("Usuário ou senha incorretos");
+      return res.status(400).send("Invalid username or password");
 
     }
 
@@ -65,7 +62,7 @@ export async function signIn(req, res) {
       }
     }
 
-    const checkk = await db.collection("wallets").findOne({ _id: internalAnalysis._id });
+    const checkk = await db.collection("mycash").findOne({ _id: internalAnalysis._id });
 
     if (!checkk) {
 
@@ -76,11 +73,11 @@ export async function signIn(req, res) {
         wallet: [],
 
       };
-      await db.collection("wallets").insertOne(mainUser);
+      await db.collection("mycash").insertOne(mainUser);
 
     }
 
-    return res.status(202).send(generateCode);
+    return res.status(200).send(generateCode);
 
   } catch (error) {
 
@@ -116,10 +113,10 @@ export async function signUp(req, res) {
 
     if (invalid)
 
-      return res.status(400).send("Este email já está sendo usado!");
+      return res.status(409).send("Invalid email");
 
     await db.collection("users").insertOne({ name, email, password: shibboleth });
-    res.status(201).send("Usuário cadastrado com sucesso!");
+    res.status(201).send("Created");
 
   } catch (error) {
 

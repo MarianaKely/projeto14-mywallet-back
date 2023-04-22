@@ -1,5 +1,6 @@
-import { signUp } from '../controllers/user/register.js'
+
 import { Router } from 'express'
+import { signUp } from '../controllers/user/register.js'
 import { signIn } from "../controllers/user/register.js"
 import { profiles} from "../controllers/user/profiles.js"
 

@@ -12,12 +12,9 @@ let db;
 try {
 
   await mongoClient.connect()
-  console.log("MongoDB Connected!");
   db = mongoClient.db()
 
 } catch (error) {
-
-  console.log('Problemas no servidor')
 
 }
 
@@ -43,11 +40,11 @@ export async function transfer(req, res) {
 
   if (!room)
 
-    return res.status(422).send("Você não tem acesso, infome o token");
+    return res.status(422).send("No Token");
 
   if (room) {
 
-    const owner = await db.collection("wallets").findOne({ _id: room._id });
+    const owner = await db.collection("mycash").findOne({ _id: room._id });
     const { name, wallet } = owner;
 
     try {
@@ -61,14 +58,14 @@ export async function transfer(req, res) {
 
       };
 
-      await db.collection("wallets").updateOne(
+      await db.collection("mycash").updateOne(
 
           { _id: room._id },
           { $push: { wallet: { ...OwnerShipping } } }
 
         );
 
-      res.sendStatus(201);
+      res.sendStatus(200);
 
     } catch (err) {
 

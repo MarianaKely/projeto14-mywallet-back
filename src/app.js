@@ -1,10 +1,12 @@
 
-import inceptionRouter from "./routes/inceptionRouter.js"
 import express from "express"
 import cors from "cors"
+import inceptionRouter from "./routes/inceptionRouter.js"
 import cashRouter from "./routes/cashRouter.js"
 
-let PORT = 5000
+
+const PORT = 5000
+
 
 const server = express()
 server.use(express.json())
