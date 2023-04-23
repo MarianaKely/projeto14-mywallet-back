@@ -5,7 +5,7 @@ import inceptionRouter from "./routes/inceptionRouter.js"
 import cashRouter from "./routes/cashRouter.js"
 
 
-const PORT = 5000
+const PORT = process.env.PORT || 5000;
 
 
 const server = express()
